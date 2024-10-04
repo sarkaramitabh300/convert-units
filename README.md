@@ -106,7 +106,7 @@ convert(900).from('mm').toBest({ cutOffNumber: 10 });
 convert(1000).from('mm').toBest({ cutOffNumber: 10 });
 // { val: 100, unit: 'cm', plural: 'Centimeters' } (the smallest unit with a value equal to or above 10)
 
-// by default the system of the origin is used, the `system` option overwrites this behaviour
+// by default the system of the origin is used, the `system` option overwrites this behavior
 convert(254).from('mm').toBest({ system: 'imperial' }); // ('mm' is metric)
 // { val: 10, unit: 'in', plural: 'Inches' }            // ('in' is imperial)
 ```
@@ -199,7 +199,7 @@ convert().list('mass');
 Custom Measures
 ---------------
 
-To create a custom measure, it's best to start with an plain object. The key itself will be used as the measure's name. In the example below, the measure's name is "`customMeasure`".
+To create a custom measure, it's best to start with a plain object. The key itself will be used as the measure's name. In the example below, the measure's name is "`customMeasure`".
 
 <details>
 <summary>Code example:</summary>
@@ -211,7 +211,7 @@ const measure = {
 ```
 </details>
 
-Next step is to create the measure's systems. A system is a collection of related units. Here are some examples of some common systems: metric, imperial, SI, bits, bytes, etc. You don't need to use one of these systems for your measure. In the example below, there are 3 systems defined: `A`, `B`, `C`.
+The next step is to create the measurement systems. A system is a collection of related units. Here are some examples of some common systems: metric, imperial, SI, bits, bytes, etc. You don't need to use one of these systems for your measure. In the example below, there are 3 systems defined: `A`, `B`, `C`.
 
 <details>
 <summary>Code example:</summary>
@@ -253,7 +253,7 @@ const measure = {
 ```
 </details>
 
-Each unit also needs to an `to_anchor` property. `to_anchor` holds a number which represents the factor needed to go from another unit in the system to the base unit. In the case of the `a` unit, the value will be `1`. The value for all base units in every system should to be `1` because if you convert `5 a` to `a` the result should be `5 a`. This is because the value of `to_anchor` is multiplied with the value of the unit being converted from. So in this case, `5 * 1 = 5`.
+Each unit also needs a `to_anchor` property. `to_anchor` holds a number that represents the factor needed to go from another unit in the system to the base unit. In the case of the `a` unit, the value will be `1`. The value for all base units in every system should be `1` because if you convert `5 a` to `a` the result should be `5 a`. This is because the value of `to_anchor` is multiplied by the value of the unit being converted from. So in this case, `5 * 1 = 5`.
 
 <details>
 <summary>Code example:</summary>
@@ -349,7 +349,7 @@ const measure = {
 ```
 </details>
 
-There is one more option, `anchor_shift`, it can be defined on a unit if it requires to be shifted after the conversion. If `al` had a `anchor_shift` of `5` then `10 al` to `a` would look like, `10 * 0.1 - 5 = -4 a`. If the shift needs to go in the opposite direction then it should be a negative number. Typically, measures and units that use the `anchor_shift` only need to be shifted. If that is the desired effect then setting `to_anchor` to `1` for each unit will achieve that. To see a real world example, check out the `temperature` measure in the `definitions` folder.
+There is one more option, `anchor_shift`, it can be defined on a unit if it requires to be shifted after the conversion. If `al` had an `anchor_shift` of `5` then `10 al` to `a` would look like, `10 * 0.1 - 5 = -4 a`. If the shift needs to go in the opposite direction then it should be a negative number. Typically, measures and units that use the `anchor_shift` only need to be shifted. If that is the desired effect then setting `to_anchor` to `1` for each unit will achieve that. To see a real world example, check out the `temperature` measure in the `definitions` folder.
 
 <details>
 <summary>Code example:</summary>
@@ -389,7 +389,7 @@ const measure = {
 ```
 </details>
 
-At this point if the custom measure only needs one system then it's done! However, if it requires more than one system, an extra step is required. In the example code below, the previously ignored systems `C` and `B` have been defined to look exactly like the `A` system.
+At this point, if the custom measure only needs one system then it's done! However, if it requires more than one system, an extra step is required. In the example code below, the previously ignored systems `C` and `B` have been defined to look exactly like the `A` system.
 
 <details>
 <summary>Code example:</summary>
@@ -490,7 +490,7 @@ const measure = {
 ```
 </details>
 
-Then just like for the `systems` object, add a key for each system with it's value being an empty object:
+Then just like for the `systems` object, add a key for each system with its value being an empty object:
 
 <details>
 <summary>Code example:</summary>
@@ -543,9 +543,9 @@ const measure = {
 
 When converting, for example, `1 a` to `bl`, the code can perform a simple lookup here, `anchors.A.B`. If instead the conversion is from `10 c` to `ah` then the lookup would be, `anchors.C.A`. At this point how to convert from one system to the next hasn't been defined yet; that will be the next and final step in creating a new measure.
 
-Each system pair needs to either defined a `ratio` or a `transform` function. If a `ratio` is defined then it's multiplied by the base unit to convert it to the target system's base unit. If `transform` is defined, the function is called with the value of the best unit. It's value is used as the base unit of the target system. The `transform` function should return a number.
+Each system pair needs to either define a `ratio` or a `transform` function. If a `ratio` is defined then it's multiplied by the base unit to convert it to the target system's base unit. If `transform` is defined, the function is called with the value of the best unit. It's value is used as the base unit of the target system. The `transform` function should return a number.
 
-> Note: If both `ratio` and `transform` are defined then the `ratio` will be used and the `transform` function will be ignored. If nether are defined, the conversion will throw an error.
+> Note: If both `ratio` and `transform` are defined then the `ratio` will be used and the `transform` function will be ignored. If neither is defined, the conversion will throw an error.
 
 <details>
 <summary>Code example:</summary>
@@ -814,7 +814,7 @@ export default configureMeasurements(allMeasures);
 Typescript
 ----------
 
-The library provides types for all packaged mesasures:
+The library provides types for all packaged measurements:
 
 ```ts
 import configureMeasurements from 'convert-units';
@@ -873,7 +873,7 @@ const convert = configureMeasurements<Measures, Systems, Units>({
 });
 
 convert(4).from('wat').to('cm');
-// Typescript will warm that the unit `wat` does not exist because it's not a member of the `Units` type defined above.
+// Typescript will warn that the unit `wat` does not exist because it's not a member of the `Units` type defined above.
 ```
 
 Types for the `allMeasures` object are also provided:
